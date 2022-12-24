@@ -21,9 +21,9 @@
 #  define BUFFER_SIZE 20
 # endif
 
-# if BUFFER_SIZE >= 10000000
-#  define BUFFER_SIZE 20
-# endif
+//# if BUFFER_SIZE >= 10000000
+//#  define BUFFER_SIZE 20
+//# endif
 
 char	*get_next_line(int fd);
 
