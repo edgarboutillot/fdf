@@ -22,6 +22,12 @@ static int	ft_strlen(char *str)
 	return (i);
 }
 
+/**
+ * @brief Find index of the first new line encounter
+ * @param str The string where to find a new line
+ * @return The position of the first new line encounter in the string.
+ * If doesn't find a new line return -1
+ */
 static int	ft_find_newline(char *str)
 {
 	int	i;
@@ -36,6 +42,13 @@ static int	ft_find_newline(char *str)
 	return (-1);
 }
 
+/**
+ * @brief Concatenate all the new char to read with the previous ones
+ * @param s1 First string to concatenate
+ * @param s2 Second string to concatenate
+ * @param flag To know if I need to free the malloc or not
+ * @return A dynamically allocated variable with the concatenation result
+ */
 static char	*ft_strjoin(char *s1, char *s2, int flag)
 {
 	char	*tmp;
@@ -62,6 +75,13 @@ static char	*ft_strjoin(char *s1, char *s2, int flag)
 	return (tmp);
 }
 
+/**
+ * @brief return the GNL line and store the extra char
+ * @param stock Variable to store all the char that I read
+ * @param extra Variable to store all the extra if too much char
+ * 				read after the '\n'
+ * @return Dynamically allocated variable with the line read
+ */
 static char	*ft_split_newline(char *stock, char *extra)
 {
 	int		pos;
