@@ -1,7 +1,5 @@
 
-
-
-#include<unistd.h>
+#include <unistd.h>
 
 void	ft_putnbr(int nb)
 {
