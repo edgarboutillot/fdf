@@ -1,13 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client.c                                           :+:      :+:    :+:   */
+/*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edboutil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/24 17:05:05 by edboutil          #+#    #+#             */
-/*   Updated: 2022/12/24 17:05:06 by edboutil         ###   ########lyon.fr   */
+/*   Created: 2022/12/24 17:05:20 by edboutil          #+#    #+#             */
+/*   Updated: 2022/12/24 17:05:21 by edboutil         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef MINITALK_H
+# define MINITALK_H
 
+# include "../ft_printf/ft_printf.h"
+# include <signal.h>
+
+#endif
