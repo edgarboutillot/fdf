@@ -36,8 +36,6 @@ int deal_key(int key, fdf *data)
 	return (0);
 }
 
-int close_window()
-
 int	main(int argc, char **argv)
 {
 	fdf *data;
