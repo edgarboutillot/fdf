@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edboutil <edboutil@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: edboutil <edboutil@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/23 12:42:05 by edboutil          #+#    #+#             */
-/*   Updated: 2023/05/23 12:42:05 by edboutil         ###   ########.fr       */
+/*   Created: 2023/06/26 13:06:45 by edboutil          #+#    #+#             */
+/*   Updated: 2023/06/26 13:06:45 by edboutil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-# include <stddef.h>
-# define BUFF_SIZE 42
+#include <stddef.h>
+#define BUFF_SIZE 42
 
-static t_arr	*newlist(const int fd)
+static t_arr    *newlist(const int fd)
 {
 	t_arr	*new;
 

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: edboutil <edboutil@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/23 13:04:30 by edboutil          #+#    #+#             */
-/*   Updated: 2023/05/23 13:04:30 by edboutil         ###   ########.fr       */
+/*   Created: 2023/06/26 13:08:46 by edboutil          #+#    #+#             */
+/*   Updated: 2023/06/26 13:08:46 by edboutil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_strnew(size_t size)
 {
-	char *str;
+	char	*str;
 
 	str = (char *)malloc(sizeof(char) * (size + 1));
 	if (str == NULL)
@@ -72,5 +72,5 @@ void	ft_memdel(void **ap)
 
 void	ft_strdel(char **as)
 {
-	ft_memdel((void**)as);
+	ft_memdel((void**) as);
 }

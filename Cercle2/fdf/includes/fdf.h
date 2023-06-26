@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: edboutil <edboutil@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: edboutil <edboutil@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/19 14:46:46 by edboutil          #+#    #+#             */
-/*   Updated: 2023/05/19 14:46:46 by edboutil         ###   ########.fr       */
+/*   Created: 2023/06/26 12:59:36 by edboutil          #+#    #+#             */
+/*   Updated: 2023/06/26 12:59:36 by edboutil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,24 @@
 
 // INCLUDE ------------------------------------------------
 # include <stdlib.h>
-# include "../minilibx-linux/mlx.h"
-# include "../minilibx-linux/mlx_int.h"
+# include <unistd.h>
+# include <math.h>
+# include <fcntl.h>
+# include "../mlx/linux/mlx.h"
+
+
+//# ifdef __APPLE__
+//#  include "../mlx/mac/mlx.h"
+//# endif
+//
+//# ifdef __linux__
+//# endif
 
 // TYPEDEF ------------------------------------------------
 
 
 // STRUCT -------------------------------------------------
+
 typedef struct	s_arr
 {
 	int				fd;
@@ -32,9 +43,12 @@ typedef struct	s_arr
 typedef struct
 {
 	int width;
-	int weight;
-	int **z_matrix;
-
+	int height;
+	int **matrix;
+	int zoom;
+	int color;
+	int shift_x;
+	int shift_y;
 	void *mlx_ptr;
 	void *win_ptr;
 }		fdf;
@@ -46,14 +60,22 @@ typedef struct
 
 
 // GRAPH ---------------------------------------------------
+void 	bresenham(float x1, float y1, float x2, float y2, fdf *data);
+void    plot(float x, float y, fdf *data);
+void    draw_horizontal(float x1, float x2, float y, fdf *data, float stepX);
+void    draw_vertical(float x, float y1, float y2, fdf *data, float stepY);
+void    draw(fdf *data);
+
+void	isometric(float *x, float *y, int z);
+
 
 // READ_MAP ------------------------------------------------
-
 void	read_file(char *file_name, fdf *data);
+
 
 // UTILS --------------------------------------------------
 int		ft_printf(const char *format, ...);
-char	**ft_split(const char *str, char c);
+char	**ft_split(char const *str, char c);
 int		get_next_line(const int fd, char **line);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strsub(char const *s, unsigned int start, size_t len);
@@ -65,5 +87,12 @@ void	ft_strclr(char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 void	ft_memdel(void **ap);
 void	ft_strdel(char **as);
+int 	ft_atoi(const char *str);
+int		ft_words_counter(char const *str, char c);
+void	ft_putchar_fd(char c, int fd);
+void	ft_putnbr_fd(int n, int fd);
+void	ft_putstr_fd(char const *s, int fd);
 
 #endif
+
+
