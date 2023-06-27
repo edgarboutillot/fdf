@@ -1,47 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   maths.c                                            :+:      :+:    :+:   */
+/*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edboutil <edboutil@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/27 00:02:25 by edboutil          #+#    #+#             */
-/*   Updated: 2023/06/27 00:02:28 by edboutil         ###   ########.fr       */
+/*   Created: 2023/06/27 20:07:51 by edboutil          #+#    #+#             */
+/*   Updated: 2023/06/27 20:07:57 by edboutil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-float	ft_fmax(float x, float y)
+void	mlx_pixel_put_img(t_img *img, t_coord c, int color)
 {
-	if (x > y)
-		return (x);
-	return (y);
+	char	*dst;
+
+	if (c.x < 0 || c.x >= WIN_SIZE || c.y < 0 || c.y >= WIN_SIZE)
+		return ;
+	dst = img->addr + (c.y * img->line_length + c.x * \
+		(img->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
 }
 
-int	ft_max(int x, int y)
+int	close_mlx(t_data *data)
 {
-	if (x > y)
-		return (x);
-	return (y);
-}
-
-float	ft_fabs(float i)
-{
-	if (i < 0)
-		return (-i);
-	return (i);
-}
-
-int	ft_abs(int i)
-{
-	if (i < 0)
-		return (-i);
-	return (i);
-}
-
-void	isometric(t_fcoord *c, int z)
-{
-	c->x = (c->x - c->y) * cos(0.8);
-	c->y = (c->x + c->y) * sin(0.8) - z;
+	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+	free_n_array((void **)data->matrix, data->height);
+	exit(SUCCESS);
 }

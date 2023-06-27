@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edboutil <edboutil@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/26 12:57:08 by edboutil          #+#    #+#             */
-/*   Updated: 2023/06/26 12:57:08 by edboutil         ###   ########.fr       */
+/*   Created: 2023/06/27 21:14:51 by edboutil          #+#    #+#             */
+/*   Updated: 2023/06/27 21:14:59 by edboutil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/fdf.h"
+#include "../../includes/fdf.h"
 
-void	init_data(t_data *data);
-void	set_hook(t_data *data);
 
-int	main(int argc, char **argv)
+int	hook_mouse_press(int button, int x, int y, t_data *data)
 {
-	t_data	data;
-
-	if (parsing(&data, argc, argv) == ERROR)
-		return (ERROR);
-	init_data(&data);
-	set_hook(&data);
-	mlx_loop(data.mlx_ptr);
+	(void)x;
+	(void)y;
+	if ((button == SCROLL_IN && data->zoom < 1000) || \
+		(button == SCROLL_OUT && data->zoom > 10))
+	{
+		if (button == SCROLL_IN)
+			data->zoom *= 1.1;
+		else
+			data->zoom /= 1.1;
+		render(data);
+	}
+	return (SUCCESS);
 }
-
-

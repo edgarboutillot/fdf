@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edboutil <edboutil@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/27 00:14:59 by edboutil          #+#    #+#             */
+/*   Updated: 2023/06/27 19:59:56 by edboutil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "../includes/fdf.h"
 
@@ -5,13 +17,14 @@ void	init_data(t_data *data)
 {
 	data->mlx_ptr = mlx_init();
 	data->win_ptr = mlx_new_window(data->mlx_ptr, WIN_SIZE, WIN_SIZE, "FDF");
-	data->zoom = 20;
-	data->offset.x = WIN_SIZE / 2 - data->width / 2 - 50;
-	data->offset.y = WIN_SIZE / 2 - data->height / 2 - 100;
+	data->img.img = mlx_new_image(data->mlx_ptr, WIN_SIZE, WIN_SIZE);
+	data->img.addr = mlx_get_data_addr(data->img.img, &data->\
+		img.bits_per_pixel, &data->img.line_length, &data->img.endian);
 	data->key_press[UP] = FALSE;
 	data->key_press[DOWN] = FALSE;
 	data->key_press[RIGHT] = FALSE;
 	data->key_press[LEFT] = FALSE;
+	set_default_value(data);
 }
 
 t_exit	init_matrix(t_data *data, t_list *matrix)
@@ -34,9 +47,11 @@ t_exit	init_matrix(t_data *data, t_list *matrix)
 	return (SUCCESS);
 }
 
-int	close_mlx(t_data *data)
+void	set_default_value(t_data *data)
 {
-	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	free_n_array((void **)data->matrix, data->height);
-	exit(SUCCESS);
+	data->zoom = ft_max(data->width, data->height) * 35 / 19;
+	data->offset.x = WIN_SIZE / 2 - data->width / 2 - (data->width * 90 / 19);
+	data->offset.y = WIN_SIZE / 2 - data->height / 2 - \
+		(data->height * 180 / 11);
+	render(data);
 }

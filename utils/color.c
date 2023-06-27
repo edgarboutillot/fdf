@@ -1,47 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   maths.c                                            :+:      :+:    :+:   */
+/*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edboutil <edboutil@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/27 00:02:25 by edboutil          #+#    #+#             */
-/*   Updated: 2023/06/27 00:02:28 by edboutil         ###   ########.fr       */
+/*   Created: 2023/06/27 21:30:16 by edboutil          #+#    #+#             */
+/*   Updated: 2023/06/27 21:30:18 by edboutil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-float	ft_fmax(float x, float y)
-{
-	if (x > y)
-		return (x);
-	return (y);
-}
+#define GRADIENT_SIZE	6
 
-int	ft_max(int x, int y)
+int	get_color(int altitude)
 {
-	if (x > y)
-		return (x);
-	return (y);
-}
+	const int	colors[GRADIENT_SIZE] = {0x845ec2, 0xd65db1, 0xff6f91, \
+		0xff9671, 0xffc75f, 0xf9f871};
 
-float	ft_fabs(float i)
-{
-	if (i < 0)
-		return (-i);
-	return (i);
-}
-
-int	ft_abs(int i)
-{
-	if (i < 0)
-		return (-i);
-	return (i);
-}
-
-void	isometric(t_fcoord *c, int z)
-{
-	c->x = (c->x - c->y) * cos(0.8);
-	c->y = (c->x + c->y) * sin(0.8) - z;
+	return (colors[ft_abs(altitude) % GRADIENT_SIZE]);
 }

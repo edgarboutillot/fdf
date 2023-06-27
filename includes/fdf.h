@@ -6,7 +6,7 @@
 /*   By: edboutil <edboutil@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 12:59:36 by edboutil          #+#    #+#             */
-/*   Updated: 2023/06/26 12:59:36 by edboutil         ###   ########.fr       */
+/*   Updated: 2023/06/27 20:42:44 by edboutil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,21 @@
 
 # ifdef __APPLE__
 #  include "../mlx/mac/mlx.h"
+#  define MOVE_SPEED    10
 # endif
 
 # ifdef __linux__
 #  include "../mlx/linux/mlx.h"
+#  define q    5
 # endif
 
-# define WIN_SIZE	1000
+# define WIN_SIZE	    1000
 
 // TYPEDEF ------------------------------------------------
-typedef struct s_arr	t_arr;
+typedef struct s_img	t_img;
 typedef struct s_data	t_data;
 typedef struct s_coord	t_coord;
+typedef struct s_fcoord	t_fcoord;
 typedef struct s_list	t_list;
 typedef enum e_exit		t_exit;
 typedef enum e_bool		t_bool;
@@ -47,9 +50,17 @@ enum e_keycode
 	A = 0,
 	S = 1,
 	D = 2,
+	Q = 12,
 	W = 13,
 	ESQ = 53,
+	LEFT_KEY = 123,
+	RIGHT_KEY = 124,
+	DOWN_KEY = 125,
+	UP_KEY = 126,
+	SCROLL_IN = 4,
+	SCROLL_OUT = 5,
 };
+
 # endif
 
 # ifdef __linux__
@@ -60,8 +71,15 @@ enum e_keycode
 	S = 115,
 	D = 100,
 	W = 119,
+	LEFT_KEY = 65,
+	RIGHT_KEY = 66,
+	DOWN_KEY = 67,
+	UP_KEY = 68,
+	ZOOM_IN = 4,
+	ZOOM_OUT = 5,
 	ESQ = 65307,
 };
+
 # endif
 
 enum e_exit
@@ -92,10 +110,25 @@ enum e_direction
 };
 
 // STRUCT -------------------------------------------------
+struct	s_img
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+};
+
 struct s_coord
 {
 	int	x;
 	int	y;
+};
+
+struct s_fcoord
+{
+	float	x;
+	float	y;
 };
 
 struct s_list
@@ -110,10 +143,10 @@ struct s_data
 	int		height;
 	int		**matrix;
 	int		zoom;
-	int		color;
 	t_coord	offset;
 	void	*mlx_ptr;
 	void	*win_ptr;
+	t_img	img;
 	t_bool	key_press[4];
 };
 
@@ -121,32 +154,40 @@ struct s_data
 t_exit	parsing(t_data *data, int argc, char **argv);
 
 // GRAPH --------------------------------------------------
-void	bresenham(float x1, float y1, float x2, float y2, t_data *data);
-void	plot(float x, float y, t_data *data);
-void	draw_horizontal(float x1, float x2, float y, t_data *data, float stepX);
-void	draw_vertical(float x, float y1, float y2, t_data *data, float stepY);
-void	draw(t_data *data);
-
-void	isometric(float *x, float *y, int z);
+void	render(t_data *data);
+void	isometric(t_fcoord *c, int z);
+void	set_default_value(t_data *data);
+int		get_color(int altitude);
 
 // UTILS --------------------------------------------------
 int		ft_printf(const char *format, ...);
 char	**ft_split(char const *str, char c);
 char	*get_next_line(int fd);
+
 size_t	ft_strlen(const char *s);
 int		ft_strcmp(char *s1, char *s2);
 t_bool	ft_strendwith(char *s1, char *s2);
 int		ft_atoi(const char *str);
+
 t_exit	error_msg(char *msg);
+
 void	ft_lstadd_back(t_list **lst, char *line);
 int		ft_lst_size(t_list *top_a);
 void	ft_lstclear(t_list *lst);
+
 int		count_words(char const *str, char charset);
+
 t_exit	free_array(void **array);
 t_exit	free_n_array(void **array, int size);
+
+void	mlx_pixel_put_img(t_img *img, t_coord c, int color);
 int		close_mlx(t_data *data);
+
+float	ft_fmax(float x, float y);
 int		ft_max(int x, int y);
-float	ft_abs(float i);
-void	isometric(float *x, float *y, int z);
+float	ft_fabs(float i);
+int		ft_abs(int i);
+
+#include <printf.h>
 
 #endif
