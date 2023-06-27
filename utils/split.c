@@ -12,79 +12,75 @@
 
 #include "../includes/fdf.h"
 
-static int		words(char const *str, char c)
+int	count_words(const char *str, char charset)
 {
-	int i;
-	int words;
+	int	i;
+	int	words;
 
 	words = 0;
 	i = 0;
-	while (str[i])
+	while (str[i] != '\0')
 	{
-		while (str[i] == c && str[i] != '\0')
-			i++;
-		if (str[i])
+		if ((str[i + 1] == charset || str[i + 1] == '\0') == 1
+			&& (str[i] == charset || str[i] == '\0') == 0)
 			words++;
-		while (str[i] != c && str[i] != '\0')
-			i++;
+		i++;
 	}
 	return (words);
 }
 
-static char		**memory_giver(char const *str, char c)
+static void	write_word(char *dest, const char *from, char charset)
 {
-	char	**res;
-	int		letters;
-	int		i;
-	int		j;
+	int	i;
 
-	if ((res = (char **)malloc(sizeof(char*) * (words(str, c) + 1))) == NULL)
-		return (NULL);
 	i = 0;
-	j = 0;
-	while (str[i])
+	while ((from[i] == charset || from[i] == '\0') == 0)
 	{
-		letters = 0;
-		while (str[i] == c && str[i])
-			i++;
-		while (str[i] != c && str[i] != '\0')
-		{
-			letters++;
-			i++;
-		}
-		if (letters > 0)
-			if ((res[j++] = (char *)malloc(sizeof(char) * letters + 1)) == NULL)
-				return (NULL);
+		dest[i] = from[i];
+		i++;
 	}
-	res[j] = 0;
-	return (res);
+	dest[i] = '\0';
 }
 
-char			**ft_split(char const *str, char c)
+static t_exit	write_split(char **split, const char *str, char charset)
 {
-	char	**res;
 	int		i;
 	int		j;
-	int		str_number;
-	int		size;
+	int		word;
 
-	if (str == NULL)
-		return (NULL);
-	size = words(str, c);
-	res = memory_giver(str, c);
-	if (res == NULL)
-		return (NULL);
+	word = 0;
 	i = 0;
-	str_number = 0;
-	while (str_number < size)
+	while (str[i] != '\0')
 	{
-		while (str[i] == c && str[i])
+		if ((str[i] == charset || str[i] == '\0') == 1)
 			i++;
-		j = 0;
-		while (str[i] != c && str[i])
-			res[str_number][j++] = str[i++];
-		res[str_number][j] = '\0';
-		str_number++;
+		else
+		{
+			j = 0;
+			while ((str[i + j] == charset || str[i + j] == '\0') == 0)
+				j++;
+			split[word] = (char *)malloc(sizeof(char) * (j + 1));
+			if (!split[word])
+				return (free_n_array((void **)split, word));
+			write_word(split[word], str + i, charset);
+			i += j;
+			word++;
+		}
 	}
+	return (SUCCESS);
+}
+
+char	**ft_split(const char *str, char c)
+{
+	char	**res;
+	int		words;
+
+	words = count_words(str, c);
+	res = (char **)malloc(sizeof(char *) * (words + 1));
+	if (!res)
+		return (NULL);
+	res[words] = 0;
+	if (write_split(res, str, c) == ERROR)
+		return (NULL);
 	return (res);
 }

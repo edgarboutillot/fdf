@@ -10,29 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/fdf.h"
+#include "../includes/fdf.h"
 
-int    ft_max(int x, int y)
-{
-	if (x > y)
-		return (x);
-	return (y);
-}
-
-float ft_abs(float i)
-{
-	if (i < 0)
-		return (-i);
-	return (i);
-}
-
-void    isometric(float *x, float *y, int z)
-{
-	*x = (*x - *y) * cos(0.8);
-	*y = (*x + *y) * sin(0.8) - z;
-}
-
-void bresenham(float x1, float y1, float x2, float y2, fdf *data)
+void	bresenham(float x1, float y1, float x2, float y2, t_data *data)
 {
 	float   x_step;
 	float   y_step;
@@ -56,10 +36,10 @@ void bresenham(float x1, float y1, float x2, float y2, fdf *data)
 	isometric(&x1, &y1, z1);
 	isometric(&x2, &y2, z2);
 
-	x1 += data->shift_x;
-	x2 += data->shift_x;
-	y1 += data->shift_y;
-	y2 += data->shift_y;
+	x1 += data->offset.x;
+	x2 += data->offset.x;
+	y1 += data->offset.y;
+	y2 += data->offset.y;
 
 	x_step = x2 - x1;
 	y_step = y2 - y1;
@@ -74,10 +54,10 @@ void bresenham(float x1, float y1, float x2, float y2, fdf *data)
 	}
 }
 
-void    draw(fdf *data)
+void	draw(t_data *data)
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 
 	y = 0;
 	while (y < data->height)

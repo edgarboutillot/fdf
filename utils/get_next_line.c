@@ -5,88 +5,125 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: edboutil <edboutil@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/26 13:06:45 by edboutil          #+#    #+#             */
-/*   Updated: 2023/06/26 13:06:45 by edboutil         ###   ########.fr       */
+/*   Created: 2022/12/22 15:06:52 by edboutil          #+#    #+#             */
+/*   Updated: 2022/12/23 13:47:10 by edboutil         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-#include <stddef.h>
-#define BUFF_SIZE 42
+#define BUFFER_SIZE 64
 
-static t_arr    *newlist(const int fd)
+/**
+ * @brief Find index of the first new line encounter
+ * @param str The string where to find a new line
+ * @return The position of the first new line encounter in the string.
+ * If doesn't find a new line return -1
+ */
+static int	ft_find_newline(char *str)
 {
-	t_arr	*new;
+	int	i;
 
-	if (!(new = (t_arr *)malloc(sizeof(t_arr))))
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\n')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+/**
+ * @brief Concatenate all the new char to read with the previous ones
+ * @param s1 First string to concatenate
+ * @param s2 Second string to concatenate
+ * @param flag To know if I need to free the malloc or not
+ * @return A dynamically allocated variable with the concatenation result
+ */
+static char	*ft_strjoin_gnl(char *s1, char *s2, int flag)
+{
+	char	*tmp;
+	int		index_tmp;
+	int		index_str;
+
+	tmp = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!tmp)
+	{
+		if (flag)
+			free(s1);
 		return (NULL);
-	new->fd = fd;
-	new->rest = ft_strnew(BUFF_SIZE);
-	new->next = NULL;
-	return (new);
+	}
+	index_tmp = 0;
+	index_str = 0;
+	while (s1[index_str])
+		tmp[index_tmp++] = s1[index_str++];
+	index_str = 0;
+	while (s2[index_str])
+		tmp[index_tmp++] = s2[index_str++];
+	tmp[index_tmp] = '\0';
+	if (flag)
+		free(s1);
+	return (tmp);
 }
 
-static char		*checkrest(char **p_n, char *rest)
+/**
+ * @brief return the GNL line and store the extra char
+ * @param stock Variable to store all the char that I read
+ * @param extra Variable to store all the extra if too much char
+ * 				read after the '\n'
+ * @return Dynamically allocated variable with the line read
+ */
+static char	*ft_split_newline(char *stock, char *extra)
 {
-	char *str;
+	int		pos;
+	int		i;
+	int		j;
+	char	*tmp;
 
-	if ((*p_n = ft_strchr(rest, '\n')) != NULL)
+	i = 0;
+	j = 0;
+	pos = ft_find_newline(stock);
+	if (pos == -1)
 	{
-		str = ft_strsub(rest, 0, *p_n - rest);
-		ft_strcpy(rest, ++(*p_n));
+		*extra = '\0';
+		return (stock);
 	}
-	else
-	{
-		str = ft_strnew(ft_strlen(rest) + 1);
-		ft_strcat(str, rest);
-		ft_strclr(rest);
-	}
-	return (str);
+	tmp = malloc(sizeof(char) * (pos + 2));
+	if (!tmp)
+		return (free(stock), NULL);
+	while (i <= pos)
+		tmp[i++] = stock[j++];
+	tmp[i] = '\0';
+	i = 0;
+	while (stock[j])
+		extra[i++] = stock[j++];
+	extra[i] = '\0';
+	free(stock);
+	return (tmp);
 }
 
-static int		get_line(const int fd, char **line, char *rest)
+char	*get_next_line(int fd)
 {
-	char			buf[BUFF_SIZE + 1];
-	char			*p_n;
-	char			*tmp;
-	int				rd;
+	static char	extra[BUFFER_SIZE] = "";
+	char		read_str[BUFFER_SIZE + 1];
+	int			byte_read;
+	char		*stock;
 
-	p_n = NULL;
-	rd = 1;
-	*line = checkrest(&p_n, rest);
-	while (p_n == 0 && ((rd = read(fd, buf, BUFF_SIZE)) != 0))
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	stock = ft_strjoin_gnl(extra, "", 0);
+	if (!stock)
+		return (NULL);
+	byte_read = 1;
+	while (byte_read && ft_find_newline(stock) == -1)
 	{
-		buf[rd] = '\0';
-		if ((p_n = ft_strchr(buf, '\n')) != NULL)
-		{
-			ft_strcpy(rest, ++p_n);
-			ft_strclr(--p_n);
-		}
-		tmp = *line;
-		if (!(*line = ft_strjoin(tmp, buf)) || rd < 0)
-			return (-1);
-		ft_strdel(&tmp);
+		byte_read = read(fd, read_str, BUFFER_SIZE);
+		if (byte_read == -1 || (byte_read == 0 && stock[0] == '\0'))
+			return (*extra = '\0', free(stock), NULL);
+		read_str[byte_read] = '\0';
+		stock = ft_strjoin_gnl(stock, read_str, 1);
+		if (!stock)
+			return (NULL);
 	}
-	return ((ft_strlen(*line) || ft_strlen(rest) || rd) ? 1 : 0);
-}
-
-int				get_next_line(const int fd, char **line)
-{
-	static t_arr	*list;
-	t_arr			*tmp;
-	int				ret;
-
-	if (fd < 0 || line == 0)
-		return (-1);
-	if (!list)
-		list = newlist(fd);
-	tmp = list;
-	while (tmp->fd != fd)
-	{
-		if (tmp->next == NULL)
-			tmp->next = newlist(fd);
-		tmp = tmp->next;
-	}
-	ret = get_line(fd, line, tmp->rest);
-	return (ret);
+	return (ft_split_newline(stock, extra));
 }

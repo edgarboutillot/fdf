@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   maths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edboutil <edboutil@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/26 12:57:08 by edboutil          #+#    #+#             */
-/*   Updated: 2023/06/26 12:57:08 by edboutil         ###   ########.fr       */
+/*   Created: 2023/06/27 00:02:25 by edboutil          #+#    #+#             */
+/*   Updated: 2023/06/27 00:02:28 by edboutil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/fdf.h"
+#include "../includes/fdf.h"
 
-void	init_data(t_data *data);
-void	set_hook(t_data *data);
-
-int	main(int argc, char **argv)
+int	ft_max(int x, int y)
 {
-	t_data	data;
-
-	if (parsing(&data, argc, argv) == ERROR)
-		return (ERROR);
-	init_data(&data);
-	draw(&data);
-	set_hook(&data);
-	mlx_loop(data.mlx_ptr);
+	if (x > y)
+		return (x);
+	return (y);
 }
 
+float	ft_abs(float i)
+{
+	if (i < 0)
+		return (-i);
+	return (i);
+}
 
+void	isometric(float *x, float *y, int z)
+{
+	*x = (*x - *y) * cos(0.8);
+	*y = (*x + *y) * sin(0.8) - z;
+}

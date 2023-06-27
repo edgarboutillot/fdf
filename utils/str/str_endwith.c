@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   str_endwith.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edboutil <edboutil@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/26 12:57:08 by edboutil          #+#    #+#             */
-/*   Updated: 2023/06/26 12:57:08 by edboutil         ###   ########.fr       */
+/*   Created: 2023/06/26 20:12:58 by edboutil          #+#    #+#             */
+/*   Updated: 2023/06/26 20:33:07 by edboutil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/fdf.h"
+#include "../../includes/fdf.h"
 
-void	init_data(t_data *data);
-void	set_hook(t_data *data);
-
-int	main(int argc, char **argv)
+t_bool	ft_strendwith(char *s1, char *s2)
 {
-	t_data	data;
+	int	len_s1;
+	int	len_s2;
+	int	diff;
 
-	if (parsing(&data, argc, argv) == ERROR)
-		return (ERROR);
-	init_data(&data);
-	draw(&data);
-	set_hook(&data);
-	mlx_loop(data.mlx_ptr);
+	len_s1 = ft_strlen(s1);
+	len_s2 = ft_strlen(s2);
+	diff = len_s1 - len_s2;
+	if (len_s1 >= len_s2 && ft_strcmp(s1 + diff, s2) == 0)
+		return (TRUE);
+	return (FALSE);
 }
-
-
