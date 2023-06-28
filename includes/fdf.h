@@ -28,7 +28,6 @@
 
 # ifdef __linux__
 #  include "../mlx/linux/mlx.h"
-#  define q    5
 # endif
 
 # define WIN_SIZE	    1000
@@ -71,13 +70,15 @@ enum e_keycode
 	S = 115,
 	D = 100,
 	W = 119,
+	Q = 113,
 	LEFT_KEY = 65,
 	RIGHT_KEY = 66,
 	DOWN_KEY = 67,
 	UP_KEY = 68,
-	ZOOM_IN = 4,
-	ZOOM_OUT = 5,
+	SCROLL_IN = 4,
+	SCROLL_OUT = 5,
 	ESQ = 65307,
+	MOVE_SPEED = 20,
 };
 
 # endif
@@ -152,6 +153,7 @@ struct s_data
 
 // PARSING ------------------------------------------------
 t_exit	parsing(t_data *data, int argc, char **argv);
+static t_exit	parse_line_julia(int width, int *tab, char *line);
 
 // GRAPH --------------------------------------------------
 void	render(t_data *data);
@@ -187,7 +189,5 @@ float	ft_fmax(float x, float y);
 int		ft_max(int x, int y);
 float	ft_fabs(float i);
 int		ft_abs(int i);
-
-#include <printf.h>
 
 #endif

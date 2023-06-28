@@ -14,7 +14,6 @@
 
 int	hook_key_press(int key, t_data *data)
 {
-	ft_printf("%d\n", key);
 	if (key == W || key == UP_KEY)
 		data->key_press[UP] = TRUE;
 	else if (key == S || key == DOWN_KEY)

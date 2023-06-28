@@ -12,7 +12,6 @@
 
 #include "../../includes/fdf.h"
 
-
 int	hook_mouse_press(int button, int x, int y, t_data *data)
 {
 	(void)x;

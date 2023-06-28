@@ -25,5 +25,3 @@ int	main(int argc, char **argv)
 	set_hook(&data);
 	mlx_loop(data.mlx_ptr);
 }
-
-

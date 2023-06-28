@@ -91,8 +91,8 @@ static void	handle_transformation(t_data *data, t_fcoord *p1,
 	p1->y *= data->zoom;
 	p2->x *= data->zoom;
 	p2->y *= data->zoom;
-	isometric(p1, z.x);
-	isometric(p2, z.y);
+	isometric(p1, z.x * z.x);
+	isometric(p2, z.y * z.y);
 	p1->x += data->offset.x;
 	p2->x += data->offset.x;
 	p1->y += data->offset.y;
