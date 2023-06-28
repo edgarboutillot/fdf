@@ -85,6 +85,8 @@ static void	bresenham(t_data *data, t_fcoord p1, t_fcoord p2)
 static void	handle_transformation(t_data *data, t_fcoord *p1,
 				t_fcoord *p2, t_coord z)
 {
+
+
 	p1->x *= data->zoom;
 	p1->y *= data->zoom;
 	p2->x *= data->zoom;

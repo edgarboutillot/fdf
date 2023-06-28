@@ -8,7 +8,7 @@ static t_exit	parse_line(int width, int *tab, char *line);
 
 t_exit	parsing(t_data *data, int argc, char **argv)
 {
-	t_list	*matrix;
+	t_list	*matrix;									0
 
 	if (argc != 2)
 		return (error_msg("Usage: ./fdf MAPFILE"));
