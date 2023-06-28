@@ -47,13 +47,15 @@ static void	draw(t_data *data)
 	t_coord	i;
 
 	i.y = 0;
-	while (i.y < data->height - 1)
+	while (i.y < data->height)
 	{
 		i.x = 0;
-		while (i.x < data->width - 1)
+		while (i.x < data->width)
 		{
-			bresenham(data, (t_fcoord){i.x, i.y}, (t_fcoord){i.x + 1, i.y});
-			bresenham(data, (t_fcoord){i.x, i.y}, (t_fcoord){i.x, i.y + 1});
+			if (i.x < data->width - 1)
+				bresenham(data, (t_fcoord){i.x, i.y}, (t_fcoord){i.x + 1, i.y});
+			if (i.y < data->height - 1)
+				bresenham(data, (t_fcoord){i.x, i.y}, (t_fcoord){i.x, i.y + 1});
 			i.x++;
 		}
 		i.y++;
@@ -85,8 +87,6 @@ static void	bresenham(t_data *data, t_fcoord p1, t_fcoord p2)
 static void	handle_transformation(t_data *data, t_fcoord *p1,
 				t_fcoord *p2, t_coord z)
 {
-
-
 	p1->x *= data->zoom;
 	p1->y *= data->zoom;
 	p2->x *= data->zoom;

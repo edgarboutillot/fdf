@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edboutil <edboutil@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/26 23:21:54 by edboutil          #+#    #+#             */
+/*   Updated: 2023/06/28 14:23:31 by edboutil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
@@ -8,7 +19,7 @@ static t_exit	parse_line(int width, int *tab, char *line);
 
 t_exit	parsing(t_data *data, int argc, char **argv)
 {
-	t_list	*matrix;									0
+	t_list	*matrix;
 
 	if (argc != 2)
 		return (error_msg("Usage: ./fdf MAPFILE"));
