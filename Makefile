@@ -11,7 +11,7 @@ DEP				=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.d))
 
 NAME			=	fdf
 CC				=	cc
-FLAGS			=	-Wall -Wextra -Werror -MMD -MP -fsanitize=address -g3
+FLAGS			=	-Wall -Wextra -Werror -MMD -MP
 RF				=	rm -rf
 MLX_NAME		=	libmlx.a
 

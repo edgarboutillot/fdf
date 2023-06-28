@@ -88,28 +88,3 @@ static t_exit	parse_line(int width, int *tab, char *line)
 	free_array((void **)res_split);
 	return (SUCCESS);
 }
-
-static t_exit	parse_line_julia(int width, int *tab, char *line)
-{
-	char	**res_split;
-	int		i;
-	char    **val_split;
-
-	res_split = ft_split(line, ' ');
-	if (!res_split)
-		return (ERROR);
-	i = 0;
-	while (i < width)
-	{
-		val_split = ft_split(res_split[i], ',');
-		if (!val_split)
-			return (free_array((void **)res_split), ERROR);
-		// Assuming the first value is always an integer and the second one is always a hexadecimal
-		tab[i] = ft_atoi(val_split[0]) + strtol(val_split[1], NULL, 16);
-		free_array((void **)val_split);
-		i++;
-	}
-	free_array((void **)res_split);
-	return (SUCCESS);
-}
-

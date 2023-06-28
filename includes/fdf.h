@@ -153,7 +153,7 @@ struct s_data
 
 // PARSING ------------------------------------------------
 t_exit	parsing(t_data *data, int argc, char **argv);
-static t_exit	parse_line_julia(int width, int *tab, char *line);
+t_exit	parse_line_julia(int width, int *tab, char *line);
 
 // GRAPH --------------------------------------------------
 void	render(t_data *data);
