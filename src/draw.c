@@ -76,6 +76,14 @@ static void	bresenham(t_data *data, t_fcoord p1, t_fcoord p2)
 	max = ft_fmax(ft_fabs(step.x), ft_fabs(step.y));
 	step.x /= max;
 	step.y /= max;
+	if (p1.x < 0 && p2.x < 0)
+		return ;
+	if (p1.x > WIN_SIZE && p2.x > WIN_SIZE)
+		return ;
+	if (p1.y < 0 && p2.y < 0)
+		return ;
+	if (p1.y > WIN_SIZE && p2.y > WIN_SIZE)
+		return ;
 	while ((int)(p1.x - p2.x) || (int)(p1.y - p2.y))
 	{
 		mlx_pixel_put_img(&data->img, (t_coord){p1.x, p1.y}, get_color(z.x));
@@ -91,8 +99,8 @@ static void	handle_transformation(t_data *data, t_fcoord *p1,
 	p1->y *= data->zoom;
 	p2->x *= data->zoom;
 	p2->y *= data->zoom;
-	isometric(p1, z.x * z.x);
-	isometric(p2, z.y * z.y);
+	isometric(p1, z.x * data->size_diff);
+	isometric(p2, z.y * data->size_diff);
 	p1->x += data->offset.x;
 	p2->x += data->offset.x;
 	p1->y += data->offset.y;

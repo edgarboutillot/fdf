@@ -15,7 +15,7 @@
 static t_list	*read_file(char *filename);
 t_exit			init_matrix(t_data *data, t_list *matrix);
 static t_exit	parse_matrix(t_data *data, t_list *matrix);
-static t_exit	parse_line(int width, int *tab, char *line);
+static t_exit	parse_line(t_data *data, int *tab, char *line);
 
 t_exit	parsing(t_data *data, int argc, char **argv)
 {
@@ -63,7 +63,7 @@ static t_exit	parse_matrix(t_data *data, t_list *matrix)
 	i = 0;
 	while (matrix)
 	{
-		if (parse_line(data->width, data->matrix[i], matrix->line) == ERROR)
+		if (parse_line(data, data->matrix[i], matrix->line) == ERROR)
 			return (ERROR);
 		i++;
 		matrix = matrix->next;
@@ -71,18 +71,27 @@ static t_exit	parse_matrix(t_data *data, t_list *matrix)
 	return (SUCCESS);
 }
 
-static t_exit	parse_line(int width, int *tab, char *line)
+static t_exit	parse_line(t_data *data, int *tab, char *line)
 {
-	char	**res_split;
-	int		i;
+	static t_bool	first_value = TRUE;
+	char			**res_split;
+	int				i;
 
 	res_split = ft_split(line, ' ');
 	if (!res_split)
 		return (ERROR);
 	i = 0;
-	while (i < width)
+	while (i < data->width)
 	{
 		tab[i] = ft_atoi(res_split[i]);
+		// TODO ecart type
+		// TODO map vide
+		if (first_value || tab[i] > data->max)
+			data->max = tab[i];
+		if (first_value || tab[i] < data->min)
+			data->min = tab[i];
+		if (first_value)
+			first_value = FALSE;
 		i++;
 	}
 	free_array((void **)res_split);

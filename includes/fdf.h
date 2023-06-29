@@ -29,7 +29,7 @@
 #  include "../mlx/linux/mlx.h"
 # endif
 
-# define MOVE_SPEED    10
+# define MOVE_SPEED		10
 # define WIN_SIZE	    1000
 
 // TYPEDEF ------------------------------------------------
@@ -71,14 +71,13 @@ enum e_keycode
 	D = 100,
 	W = 119,
 	Q = 113,
-	LEFT_KEY = 65,
-	RIGHT_KEY = 66,
-	DOWN_KEY = 67,
-	UP_KEY = 68,
+	LEFT_KEY = 65361,
+	RIGHT_KEY = 65363,
+	DOWN_KEY = 65364,
+	UP_KEY = 65362,
 	SCROLL_IN = 4,
 	SCROLL_OUT = 5,
 	ESQ = 65307,
-	MOVE_SPEED = 20,
 };
 
 # endif
@@ -147,6 +146,9 @@ struct s_data
 	t_coord	offset;
 	void	*mlx_ptr;
 	void	*win_ptr;
+	int		min;
+	int		max;
+	double	size_diff;
 	t_img	img;
 	t_bool	key_press[4];
 };
@@ -162,7 +164,6 @@ void	set_default_value(t_data *data);
 int		get_color(int altitude);
 
 // UTILS --------------------------------------------------
-int		ft_printf(const char *format, ...);
 char	**ft_split(char const *str, char c);
 char	*get_next_line(int fd);
 
@@ -189,5 +190,7 @@ float	ft_fmax(float x, float y);
 int		ft_max(int x, int y);
 float	ft_fabs(float i);
 int		ft_abs(int i);
+
+#include <stdio.h>
 
 #endif

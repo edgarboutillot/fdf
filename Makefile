@@ -4,7 +4,7 @@ OBJS_DIR		=	.objs/
 SRCS			=	main.c \
 					src/init.c src/parsing.c src/draw.c \
 					src/hook/hook.c src/hook/mouse.c src/hook/key.c \
-					utils/get_next_line.c utils/color.c utils/mlx.c utils/printf.c utils/maths.c utils/split.c utils/error.c utils/free.c utils/lst.c utils/atoi.c \
+					utils/get_next_line.c utils/color.c utils/mlx.c utils/maths.c utils/split.c utils/error.c utils/free.c utils/lst.c utils/atoi.c \
 					utils/str/str_len.c utils/str/str_endwith.c utils/str/str_cmp.c
 OBJS			=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.o))
 DEP				=	$(addprefix $(OBJS_DIR), $(SRCS:.c=.d))
@@ -31,7 +31,7 @@ endif
 all:				mlx $(NAME)
 
 run:				all
-					./$(NAME) maps/42.fdf
+					./$(NAME) maps/julia.fdf
 
 $(NAME):			$(OBJS)
 					$(CC) $(FLAGS) $(OBJS) $(MLX_DIR)$(MLX_NAME) $(MLX_FLAGS) -lm -o $(NAME)

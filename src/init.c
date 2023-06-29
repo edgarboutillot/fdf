@@ -23,6 +23,8 @@ void	init_data(t_data *data)
 	data->key_press[DOWN] = FALSE;
 	data->key_press[RIGHT] = FALSE;
 	data->key_press[LEFT] = FALSE;
+	data->size_diff = 100.0 / (data->max - data->min + 1);
+	printf("%f\n", data->size_diff);
 	set_default_value(data);
 }
 
@@ -49,8 +51,10 @@ t_exit	init_matrix(t_data *data, t_list *matrix)
 void	set_default_value(t_data *data)
 {
 	data->zoom = ft_max(data->width, data->height) * 35 / 19;
+//	data->zoom = (data->width * data->height) / 125000;
 	data->offset.x = WIN_SIZE / 2 - data->width / 2 - (data->width * 90 / 19);
-	data->offset.y = WIN_SIZE / 2 - data->height / 2 - \
-		(data->height * 180 / 11);
+	data->offset.y = WIN_SIZE / 2 - data->height / 2 - (data->height * 180 / 11);
+	printf("%d - %d\n", data->height, data->width);
+	printf("%d\n", data->zoom);
 	render(data);
 }

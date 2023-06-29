@@ -27,7 +27,7 @@ int	close_mlx(t_data *data)
 {
 	mlx_destroy_image(data->mlx_ptr, data->img.img);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-//	mlx_destroy_display(data->mlx_ptr);
+	mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
 	free_n_array((void **)data->matrix, data->height);
 	exit(SUCCESS);
