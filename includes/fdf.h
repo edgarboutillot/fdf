@@ -23,13 +23,13 @@
 
 # ifdef __APPLE__
 #  include "../mlx/mac/mlx.h"
-#  define MOVE_SPEED    10
 # endif
 
 # ifdef __linux__
 #  include "../mlx/linux/mlx.h"
 # endif
 
+# define MOVE_SPEED    10
 # define WIN_SIZE	    1000
 
 // TYPEDEF ------------------------------------------------

@@ -30,6 +30,9 @@ endif
 # RULES -------------------------------------------------------------
 all:				mlx $(NAME)
 
+run:				all
+					./$(NAME) maps/42.fdf
+
 $(NAME):			$(OBJS)
 					$(CC) $(FLAGS) $(OBJS) $(MLX_DIR)$(MLX_NAME) $(MLX_FLAGS) -lm -o $(NAME)
 
